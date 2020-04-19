@@ -1,6 +1,12 @@
 # Compiled class file
 *.class
 
+# jdk
+.vscode/
+
+# compiled 
+target/
+
 # Log file
 *.log
 

@@ -46,7 +46,12 @@ public class Room {
         if (member == null)
             return false;
 
-        return members.putIfAbsent(member.getName(), member) == null;
+        if (members.putIfAbsent(member.getName(), member) == null) {
+            broadcast(String.format("Welcome! '%s' joined the chat!", member.getName()));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -72,7 +77,17 @@ public class Room {
                 sendMsg(fromMember, toMember, msg);
             });
         }
+    }
 
+    /**
+     * Broadcast a message to all members in the room
+     * 
+     * @param msg message
+     */
+    public void broadcast(String msg) {
+        members.values().forEach(toMember -> {
+            sendMsg(null, toMember, msg);
+        });
     }
 
     /**

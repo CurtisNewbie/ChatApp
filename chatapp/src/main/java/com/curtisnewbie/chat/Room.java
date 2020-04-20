@@ -46,7 +46,8 @@ public class Room {
         if (member == null)
             return false;
 
-        if (members.putIfAbsent(member.getName(), member) == null) {
+        if (!members.containsKey(member.getName())) {
+            members.put(member.getName(), member);
             return true;
         } else {
             return false;

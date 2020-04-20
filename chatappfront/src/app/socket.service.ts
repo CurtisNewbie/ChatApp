@@ -32,6 +32,17 @@ export class SocketService {
       let wss: WebSocketSubject<string> = webSocket({
         url: `ws://${CONFIG.host}:${CONFIG.port}/chat/room/${roomKey}/name/${username}`,
         deserializer: (msg) => msg.data,
+        closeObserver: {
+          next(closeEvent) {
+            console.log(
+              `CloseEvent_ Code: ${closeEvent.code}, Reason: ${closeEvent.reason}`
+            );
+            if (closeEvent.code == 1006)
+              alert(
+                'Failed to establish connection. Same username may have been used, please try another one.'
+              );
+          },
+        },
       });
       return wss;
     } else {

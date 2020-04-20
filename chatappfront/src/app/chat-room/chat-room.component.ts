@@ -40,15 +40,20 @@ export class ChatRoomComponent implements OnInit {
     this.wsObs = this.socket.openWsConn(this.username, this.roomKey);
     if (this.wsObs != null) {
       console.log('Connected to Server');
-      this.wsObs.subscribe(
-        (msg: string) => {
+      let subscription = this.wsObs.subscribe({
+        next: (msg: string) => {
           this.chatMsgs += msg + '\n';
           console.log(msg);
         },
-        (err: any) => {
+        error: (err: any) => {
           console.log(err);
-        }
-      );
+        },
+        complete: () => {
+          alert('Connection is closed');
+          subscription.unsubscribe();
+          this.wsObs = null;
+        },
+      });
     }
   }
 
@@ -58,6 +63,8 @@ export class ChatRoomComponent implements OnInit {
   sendMsg() {
     if (this.wsObs != null) {
       this.wsObs.next(this.currMsg);
+    } else {
+      alert("You haven't connected to any room, try create or connect one");
     }
   }
 }

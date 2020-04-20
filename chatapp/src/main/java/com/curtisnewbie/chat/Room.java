@@ -99,6 +99,12 @@ public class Room {
      * @param msg        message
      */
     private void sendMsg(Member fromMember, Member toMember, String msg) {
+        String fromName;
+        if (fromMember == null)
+            fromName = "Server";
+        else
+            fromName = fromMember.getName();
+        msg = fromName + ": " + msg;
         toMember.getSession().getAsyncRemote().sendObject(msg, result -> {
             if (result.getException() != null && fromMember != null)
                 fromMember.getSession().getAsyncRemote()

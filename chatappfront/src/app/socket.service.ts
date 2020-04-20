@@ -25,14 +25,17 @@ export class SocketService {
   /**
    * Open websocket connection and return an Observable of string
    *
-   * @returns Observable of string or NULL if either the username or the roomKey is null or empty
+   * @returns WebSocketSubject of string or NULL if either the username or the roomKey is null or empty
    */
-  openWsConn(username: string, roomKey: string): Observable<string> {
+  openWsConn(username: string, roomKey: string): WebSocketSubject<string> {
     if (username && roomKey) {
-      this.wsConn = webSocket(
-        `ws://${CONFIG.host}:${CONFIG.port}/chat/room/${roomKey}/name/${username}`
-      );
-      return this.wsConn.asObservable();
+      let wss: WebSocketSubject<string> = webSocket({
+        url: `ws://${CONFIG.host}:${CONFIG.port}/chat/room/${roomKey}/name/${username}`,
+        deserializer: (msg) => msg.data,
+      });
+      return wss;
+    } else {
+      return null;
     }
   }
 }

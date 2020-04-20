@@ -6,28 +6,30 @@
         <div class="input-group-prepend">
             <span class="input-group-text">Your Name</span>
         </div>
-        <input class="form-control" type="text" placeholder="Enter your name" id="usernameIn">
+        <input class="form-control" [(ngModel)]="username" type="text" placeholder="Enter your name" id="usernameIn">
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">Room Key</span>
         </div>
-        <input class="form-control" type="text" placeholder="Enter the room key or create a new room" id="roomKeyIn">
+        <input class="form-control" [(ngModel)]="roomKey" type="text"
+            placeholder="Enter the room key or create a new room" id="roomKeyIn">
     </div>
     <div class="text-right">
-        <button class="btn btn-primary text-right">Create Room</button>
-        <button class="btn btn-primary text-right ml-2">Connect</button>
+        <button class="btn btn-primary text-right" (click)="createRoom()">Create Room</button>
+        <button class="btn btn-primary text-right ml-2" (click)="connectRoom()">Connect</button>
     </div>
     <div class="input-group">
-        <textarea class="m-3 form-control" id="chatTextArea" cols="30" rows="10"></textarea>
+        <textarea disabled='true' class="m-3 form-control" id="chatTextArea" cols="30" rows="10">{{chatMsgs}}</textarea>
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">Send Message:</span>
         </div>
-        <input class="form-control" type="text" placeholder="Enter your message" id="msgOut">
+        <input class="form-control" type="text" [(ngModel)]="currMsg" (keyup.enter)="sendMsg()"
+            placeholder="Enter your message" id="msgOut">
     </div>
     <div class="text-right">
-        <button class="btn btn-primary text-right">Send</button>
+        <button class="btn btn-primary text-right" (click)="sendMsg()">Send</button>
     </div>
 </div>

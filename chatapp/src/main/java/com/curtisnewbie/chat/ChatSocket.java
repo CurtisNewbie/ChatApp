@@ -29,18 +29,16 @@ public class ChatSocket {
     public void onOpen(Session session, @PathParam("roomkey") String roomKey, @PathParam("username") String username) {
         Room room = rooms.getRoom(roomKey);
         Member member;
-        if (room != null && (member = Member.of(session, username)) != null) {
-            if (room.addMember(member))
-                logger.info(member.getName() + " : " + room.getRoomKey());
-        }
+        if (room != null && (member = Member.of(session, username)) != null)
+            room.addMember(member);
     }
 
     @OnClose
     public void onClose(@PathParam("roomkey") String roomKey, @PathParam("username") String username) {
         Room room = rooms.getRoom(roomKey);
         if (room != null) {
-            logger.info("Member removed: " + username);
-            room.removeMember(username);
+            if (room.removeMember(username) != null)
+                room.broadcast(String.format("User '%s' has left the room.", username));
         }
     }
 
@@ -49,18 +47,17 @@ public class ChatSocket {
             Throwable throwable) {
         Room room = rooms.getRoom(roomKey);
         if (room != null) {
-            logger.info("Error Member removed: " + username);
-            room.broadcast(String.format("Error: User '%s' left the room.", username));
-            room.removeMember(username);
+            logger.error(
+                    String.format("Error, member '%s' removed. Error Message: '%s'", username, throwable.getMessage()));
+            if (room.removeMember(username) != null)
+                room.broadcast(String.format("Error: User '%s' has left the room.", username));
         }
     }
 
     @OnMessage
     public void onMessage(String msg, @PathParam("roomkey") String roomKey, @PathParam("username") String username) {
         Room room = rooms.getRoom(roomKey);
-        if (room != null) {
-            logger.info("Send msg" + msg + " " + username);
+        if (room != null)
             room.sendMsg(username, msg);
-        }
     }
 }

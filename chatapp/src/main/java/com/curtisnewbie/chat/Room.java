@@ -2,6 +2,7 @@ package com.curtisnewbie.chat;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Representation of a chat room, which is uniquely identified by a
@@ -12,6 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @see {@link com.curtisnewbie.chat.Member}
  */
 public class Room {
+
+    /** The time (in milisec) that the room created */
+    private AtomicLong timeCreated;
     /** The unique key for the room */
     private String roomKey;
     /** The members maintained in each room, each identified by its name */
@@ -25,12 +29,13 @@ public class Room {
      */
     public Room(String key) {
         this.roomKey = key;
+        timeCreated = new AtomicLong(System.currentTimeMillis());
     }
 
     /**
      * Get the unique key that identify this {@code Room}
      * 
-     * @return
+     * @return unique key used to identify this {@code Room}
      */
     public String getRoomKey() {
         return roomKey;
@@ -111,5 +116,23 @@ public class Room {
                 fromMember.getSession().getAsyncRemote()
                         .sendObject(String.format("Failed to send message to: '%s'", toMember.getName()));
         });
+    }
+
+    /**
+     * Get the time that the room is created in milisec
+     * 
+     * @return time in milisec
+     */
+    public long getTimeCreated() {
+        return this.timeCreated.longValue();
+    }
+
+    /**
+     * Get whether the room is empty
+     * 
+     * @return {@code True} if the room is empty else {@code False}
+     */
+    public boolean isEmpty() {
+        return this.members.size() == 0;
     }
 }

@@ -30,6 +30,9 @@ export class ChatRoomComponent implements OnInit {
       error: (e) => {
         console.log(e);
       },
+      complete: () => {
+        this.connectRoom();
+      },
     });
   }
 

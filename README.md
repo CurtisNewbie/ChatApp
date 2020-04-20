@@ -8,7 +8,7 @@ Download the latest build in RELEASE, which is a bundled verion that contains bo
 
     java -jar chatapp-1.0.0-SNAPSHOT-runner.jar
 
-If you are using Linux OS, you can ./chatapp-1.0.0-SNAPSHOT-runnerwnload the native build and use it as follows:
+If you are using Linux OS, you can download the native build and use it as follows:
 
     ./chatapp-1.0.0-SNAPSHOT-runner
 

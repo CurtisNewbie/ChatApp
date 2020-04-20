@@ -1,10 +1,10 @@
 # ChatApp
 
-Build a Chat app to learn WebSocket
+A simple chat app that is powered by Quarkus and Angular. I am building this app to learn WebSocket.
 
 ## Use Guide
 
-Download the one in RELEASE, which is a bundled verion that contains both the Quarkus Backend and the Angular Frontend. Run the executable as follows:
+Download the latest build in RELEASE, which is a bundled verion that contains both the Quarkus Backend and the Angular Frontend. Run the executable as follows:
 
     java -jar chatapp-1.0.0-SNAPSHOT-runner.jar
 

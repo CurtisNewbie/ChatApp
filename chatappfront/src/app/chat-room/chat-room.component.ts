@@ -66,6 +66,7 @@ export class ChatRoomComponent implements OnInit {
   sendMsg() {
     if (this.wsObs != null) {
       this.wsObs.next(this.currMsg);
+      this.currMsg = '';
     } else {
       alert("You haven't connected to any room, try create or connect one");
     }

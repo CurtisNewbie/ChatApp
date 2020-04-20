@@ -30,7 +30,8 @@ public class ChatSocket {
         Room room = rooms.getRoom(roomKey);
         Member member;
         if (room != null && (member = Member.of(session, username)) != null)
-            room.addMember(member);
+            if (room.addMember(member))
+                room.broadcast(String.format("Welcome! '%s' joined the chat!", member.getName()));
     }
 
     @OnClose

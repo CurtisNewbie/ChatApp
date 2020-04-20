@@ -47,7 +47,6 @@ public class Room {
             return false;
 
         if (members.putIfAbsent(member.getName(), member) == null) {
-            broadcast(String.format("Welcome! '%s' joined the chat!", member.getName()));
             return true;
         } else {
             return false;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { Observable } from 'rxjs';
 import { WebSocketSubject } from 'rxjs/webSocket';
@@ -14,6 +14,9 @@ export class ChatRoomComponent implements OnInit {
   roomKey: string;
   chatMsgs: string = '';
   currMsg: string = '';
+
+  @ViewChild('chatTextArea')
+  chatTextArea: ElementRef;
 
   constructor(private socket: SocketService) {}
 
@@ -46,7 +49,7 @@ export class ChatRoomComponent implements OnInit {
       let subscription = this.wsObs.subscribe({
         next: (msg: string) => {
           this.chatMsgs += msg + '\n';
-          console.log(msg);
+          this.scrollTextAreaToBtm();
         },
         error: (err: any) => {
           console.log(err);
@@ -67,8 +70,14 @@ export class ChatRoomComponent implements OnInit {
     if (this.wsObs != null) {
       this.wsObs.next(this.currMsg);
       this.currMsg = '';
+      this.scrollTextAreaToBtm();
     } else {
       alert("You haven't connected to any room, try create or connect one");
     }
+  }
+
+  private scrollTextAreaToBtm() {
+    let textArea: HTMLTextAreaElement = this.chatTextArea.nativeElement;
+    textArea.scrollTop = textArea.scrollHeight;
   }
 }

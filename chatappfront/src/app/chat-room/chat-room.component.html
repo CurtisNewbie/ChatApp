@@ -20,7 +20,8 @@
         <button class="btn btn-primary text-right ml-2" (click)="connectRoom()">Connect</button>
     </div>
     <div class="input-group">
-        <textarea disabled='true' class="m-3 form-control" id="chatTextArea" cols="30" rows="10">{{chatMsgs}}</textarea>
+        <textarea disabled='true' class="m-3 form-control" id="chatTextArea" cols="30" rows="10"
+            #chatTextArea>{{chatMsgs}}</textarea>
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">

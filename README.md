@@ -1,6 +1,6 @@
 # ChatApp
 
-A simple chat app that is powered by Quarkus and Angular. I am building this app to learn WebSocket.
+A simple chat app that is powered by Quarkus, Angular and Bootstrap4. I am building this app to learn WebSocket.
 
 ## Use Guide
 

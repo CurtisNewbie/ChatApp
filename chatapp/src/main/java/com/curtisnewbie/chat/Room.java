@@ -135,4 +135,16 @@ public class Room {
     public boolean isEmpty() {
         return this.members.size() == 0;
     }
+
+    /**
+     * Get the names of {@code Member}(s) in this {@code Room}
+     * 
+     * @return names of {@code Member}(s)
+     */
+    public List<String> getMembers() {
+        List<String> list = new ArrayList<>();
+        for (var n : members.keySet())
+            list.add(n);
+        return list;
+    }
 }

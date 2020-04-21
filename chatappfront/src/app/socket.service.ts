@@ -5,12 +5,13 @@ import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Observable } from 'rxjs';
 
 const FETCH_KEY_URL = `http://${CONFIG.host}:${CONFIG.port}/api/room/key`;
+const FETCH_MEMBER_URL = `http://${CONFIG.host}:${CONFIG.port}/api/room/key`;
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
-  private wsConn: WebSocketSubject<string> = null;
+  private roomKey: string;
 
   constructor(private http: HttpClient) {}
 
@@ -18,8 +19,18 @@ export class SocketService {
    * Fetch the key of a new room from backend for websocket connection
    */
   fetchRoomKey(): Observable<string> {
-    console.log(FETCH_KEY_URL);
     return this.http.get(FETCH_KEY_URL, { responseType: 'text' });
+  }
+
+  /**
+   * Fetch the name of the members in the room
+   */
+  fetchRoomMember(): Observable<Object> {
+    if (this.roomKey) {
+      return this.http.get(`${FETCH_MEMBER_URL}/${this.roomKey}/members`, {
+        responseType: 'json',
+      });
+    }
   }
 
   /**
@@ -29,6 +40,7 @@ export class SocketService {
    */
   openWsConn(username: string, roomKey: string): WebSocketSubject<string> {
     if (username && roomKey) {
+      this.roomKey = roomKey;
       let wss: WebSocketSubject<string> = webSocket({
         url: `ws://${CONFIG.host}:${CONFIG.port}/chat/room/${roomKey}/name/${username}`,
         deserializer: (msg) => msg.data,

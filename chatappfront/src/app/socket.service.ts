@@ -39,7 +39,7 @@ export class SocketService {
             );
             if (closeEvent.code == 1006)
               alert(
-                'Failed to establish connection. Same username may have been used, please try another one.'
+                "Failed to establish connection. Same username may have been used or the room doesn't exist."
               );
           },
         },

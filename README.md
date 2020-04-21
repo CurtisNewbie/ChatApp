@@ -6,15 +6,15 @@ A simple chat app that is powered by Quarkus and Angular. I am building this app
 
 Download the latest build in RELEASE, which is a bundled verion that contains both the Quarkus Backend and the Angular Frontend. Run the executable as follows:
 
-    java -jar chatapp-1.0.0-SNAPSHOT-runner.jar
+    java -jar chatapp-1.0.1-runner.jar
 
 If you are using Linux OS, you can download the native build and use it as follows:
 
-    ./chatapp-1.0.0-SNAPSHOT-runner
+    ./chatapp-1.0.1-runner
 
 Be aware that you may need to change the permission of native build as follows:
 
-    chmod +x chatapp-1.0.0-SNAPSHOT-runner
+    chmod +x chatapp-1.0.1-runner
 
 ## Demo
 

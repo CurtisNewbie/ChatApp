@@ -23,6 +23,8 @@ import org.jboss.logging.Logger;
 @ApplicationScoped
 public class ChatSocket {
 
+    public static final String NameUsedCloseReason = "Name has been used.";
+
     @Inject
     protected Rooms rooms;
 
@@ -37,7 +39,7 @@ public class ChatSocket {
             room.broadcast(String.format("Welcome! '%s' joined the chat!", member.getName()));
         } else {
             try {
-                session.close(new CloseReason(CloseCodes.CLOSED_ABNORMALLY, "Name has been used."));
+                session.close(new CloseReason(CloseCodes.VIOLATED_POLICY, NameUsedCloseReason));
             } catch (IOException e) {
                 logger.error(e);
             }
@@ -45,11 +47,14 @@ public class ChatSocket {
     }
 
     @OnClose
-    public void onClose(@PathParam("roomkey") String roomKey, @PathParam("username") String username) {
-        Room room = rooms.getRoom(roomKey);
-        if (room != null) {
-            if (room.removeMember(username) != null)
-                room.broadcast(String.format("User '%s' has left the room.", username));
+    public void onClose(@PathParam("roomkey") String roomKey, @PathParam("username") String username,
+            CloseReason reason) {
+        if (reason.getCloseCode() != CloseCodes.VIOLATED_POLICY) {
+            Room room = rooms.getRoom(roomKey);
+            if (room != null) {
+                if (room.removeMember(username) != null)
+                    room.broadcast(String.format("User '%s' has left the room.", username));
+            }
         }
     }
 
